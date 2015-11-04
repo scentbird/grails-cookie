@@ -16,7 +16,7 @@ plugins {
     id "com.jfrog.bintray" version "1.1"
 }
 
-version "2.0-SNAPSHOT"
+version "2.0"
 group "org.grails.plugins"
 
 apply plugin: 'maven-publish'
@@ -69,3 +69,23 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
+
+bintray {
+    user = System.getenv("BINTRAY_USER") ?: project.hasProperty("bintrayUser") ? project.bintrayUser : ''
+    key = System.getenv("BINTRAY_KEY") ?: project.hasProperty("bintrayKey") ? project.bintrayKey : ''
+    publications = ['maven']
+    pkg {
+        repo = 'grails-plugins'
+        userOrg = 'ctoestreich'
+        name = "org.grails.plugins:grails-cookie"
+        desc = "Grails Cookie Plugin"
+        websiteUrl = "http://grails.org/plugin/grails-cookie"
+        issueTrackerUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie/issues"
+        vcsUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie"
+        licenses = ['Apache-2.0']
+        publicDownloadNumbers = true
+    }
+}
+
+
+bintrayUpload.dependsOn build, sourcesJar, javadocJar
