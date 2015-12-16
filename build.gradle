@@ -16,7 +16,7 @@ plugins {
     id "com.jfrog.bintray" version "1.2"
 }
 
-version "2.0"
+version "2.0.1"
 group "org.grails.plugins"
 
 apply plugin: 'maven-publish'
@@ -87,5 +87,8 @@ bintray {
     }
 }
 
+jar {
+    exclude 'grails/plugin/cookie/test/**'
+}
 
 bintrayUpload.dependsOn sourcesJar, javadocJar

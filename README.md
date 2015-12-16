@@ -8,14 +8,16 @@ It's [RFC 6265](http://tools.ietf.org/html/rfc6265) compliant.
 
 ## Installation
 
-To install the cookie plug-in just add to `BuildConfig.groovy`:
+To install the cookie plug-in just add to `build.gradle`:
 ```groovy
-compile ':cookie:1.4'
+    
+    compile 'org.grails.plugins:grails-cookie:2.0.1'
+    
 ```
 
 ## Configuration
 
-You can configure in `Config.groovy` how long the default cookie age will be (in seconds) when not explicitly supplied while setting a cookie.
+You can configure in `Config.groovy` or `application.yml` how long the default cookie age will be (in seconds) when not explicitly supplied while setting a cookie.
 ```groovy
 grails.plugins.cookie.cookieage.default = 86400 // if not specified default in code is 30 days
 ```
