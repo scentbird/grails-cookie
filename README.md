@@ -122,7 +122,15 @@ The string value will correctly be treated as a boolean.
 
 ## Changelog
 
-[All releases](https://github.com/stokito/grails-cookie/releases)
+[All releases](https://github.com/grails-plugin-consortium/grails-cookie/releases)
+
+### v2.0.1 For Grails 3.0
+[Source](https://github.com/grails-plugin-consortium/grails-cookie/releases/tag/v2.0.1)
+
+- Testing for mocking of service which was causing issues in grails 3.0.10
+
+### v2.0 For Grails 3.0
+[Source](https://github.com/grails-plugin-consortium/grails-cookie/releases/tag/v2.0)
 
 ### v1.4 For Grails 2.4
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.4)
