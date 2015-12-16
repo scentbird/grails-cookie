@@ -125,6 +125,11 @@ The string value will correctly be treated as a boolean.
 [All releases](https://github.com/grails-plugin-consortium/grails-cookie/releases)
 
 
+### v2.0.3 For Grails 3.0
+[Source](https://github.com/grails-plugin-consortium/grails-cookie/releases/tag/v2.0.3)
+
+- Missed exclude for test service
+
 ### v2.0.2 For Grails 3.0
 [Source](https://github.com/grails-plugin-consortium/grails-cookie/releases/tag/v2.0.2)
 

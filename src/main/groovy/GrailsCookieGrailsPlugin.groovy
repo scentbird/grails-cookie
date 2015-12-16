@@ -7,6 +7,7 @@ class GrailsCookieGrailsPlugin extends Plugin {
     def title = 'Cookie Plugin'
     def description = 'Makes dealing with cookies easy. Provides an injectable service and expands request with methods to easily get, set, and delete cookies with one line'
     def observe = ['controllers']
+    def pluginExcludes = ['grails/plugin/cookie/test/**']
     def documentation = 'https://github.com/grails-plugin-consortium/grails-cookie'
     def license = 'APACHE'
     def developers = [
