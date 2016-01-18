@@ -79,7 +79,7 @@ bintray {
         userOrg = 'ctoestreich'
         name = "cookie"
         desc = "Grails Cookie Plugin"
-        websiteUrl = "http://grails-plugins.org/#plugin/Cookie"
+        websiteUrl = "http://grails-plugins.org/#plugin/cookie"
         issueTrackerUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie/issues"
         vcsUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie"
         licenses = ['Apache-2.0']
