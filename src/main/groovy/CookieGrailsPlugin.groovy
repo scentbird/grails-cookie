@@ -1,6 +1,6 @@
 import grails.plugins.Plugin
 
-class GrailsCookieGrailsPlugin extends Plugin {
+class CookieGrailsPlugin extends Plugin {
     def grailsVersion = "3.0.0 > *"
     def author = 'Sergey Ponomarev'
     def authorEmail = 'stokito@gmail.com'
