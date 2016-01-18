@@ -16,7 +16,7 @@ plugins {
     id "com.jfrog.bintray" version "1.2"
 }
 
-version "2.0.3"
+version "2.0.4"
 group "org.grails.plugins"
 
 apply plugin: 'maven-publish'
@@ -77,7 +77,7 @@ bintray {
     pkg {
         repo = 'grails-plugins'
         userOrg = 'ctoestreich'
-        name = "Cookie"
+        name = "cookie"
         desc = "Grails Cookie Plugin"
         websiteUrl = "http://grails-plugins.org/#plugin/Cookie"
         issueTrackerUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie/issues"
