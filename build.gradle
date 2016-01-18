@@ -77,9 +77,9 @@ bintray {
     pkg {
         repo = 'grails-plugins'
         userOrg = 'ctoestreich'
-        name = "org.grails.plugins:grails-cookie"
+        name = "Cookie"
         desc = "Grails Cookie Plugin"
-        websiteUrl = "http://grails.org/plugin/grails-cookie"
+        websiteUrl = "http://grails-plugins.org/#plugin/Cookie"
         issueTrackerUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie/issues"
         vcsUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie"
         licenses = ['Apache-2.0']
