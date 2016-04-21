@@ -124,6 +124,10 @@ The string value will correctly be treated as a boolean.
 
 [All releases](https://github.com/grails-plugin-consortium/grails-cookie/releases)
 
+### v2.0.5 For Grails 3.0
+[Source](https://github.com/grails-plugin-consortium/grails-cookie/releases/tag/v2.0.5)
+
+- Bug fix for NPE on some find methods in groovy (Even though supposed to be null safe http://stackoverflow.com/questions/6866253/groovy-give-npe-on-list-find-call-but-only-after-a-period-of-time)
 
 ### v2.0.3 For Grails 3.0
 [Source](https://github.com/grails-plugin-consortium/grails-cookie/releases/tag/v2.0.3)
