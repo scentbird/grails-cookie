@@ -17,12 +17,12 @@ package grails.plugin.cookie
 
 import grails.web.api.ServletAttributes
 import grails.web.api.WebAttributes
-import groovy.util.logging.Commons
+import groovy.util.logging.Slf4j
 
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
-@Commons
+@Slf4j
 class CookieHelper implements ServletAttributes, WebAttributes {
 
     /** 30 days in seconds */
@@ -60,6 +60,7 @@ class CookieHelper implements ServletAttributes, WebAttributes {
      * 'current' - current directory, i.e. controller name
      * If default path is null or unset, it will be used 'context' strategy
      */
+
     String getDefaultCookiePath(String path) {
         String cookiePath
         if (path) {

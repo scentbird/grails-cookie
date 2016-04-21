@@ -15,22 +15,24 @@
  */
 package grails.plugin.cookie
 
-import groovy.util.logging.Commons
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@Commons
+@Slf4j
+@CompileStatic
 class RequestResponseCookieExtension {
 
     static final int COOKIE_AGE_TO_DELETE = 0
 
-    private static final helper = new CookieHelper()
+    private static final CookieHelper helper = new CookieHelper()
 
     static Cookie findCookie(HttpServletRequest request, String name) {
         assert name
-        request.cookies?.find { it.name == name }
+        request.getCookies()?.find { it != null && it.name == name }
     }
 
     static String getCookie(HttpServletRequest request, String name) {
@@ -58,9 +60,12 @@ class RequestResponseCookieExtension {
      * Sets the cookie with name to value, with age in seconds
      * @param args Named params eg <code>[name: 'cookie_name', value: 'some_val', secure: true] </code>
      */
+    @SuppressWarnings("GroovyUnusedDeclaration")
     static Cookie setCookie(HttpServletResponse response, Map args) {
         assert args
-        setCookie response, helper.createCookie(args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly)
+        Boolean secure = args.secure?.toString()?.toBoolean()
+        Boolean httpOnly = args.httpOnly?.toString()?.toBoolean()
+        setCookie response, helper.createCookie(args.name as String, args.value as String, args.maxAge as Integer, args.path as String, args.domain as String, secure != null ? secure : false, httpOnly != null ? httpOnly : true)
     }
 
     /** Sets the cookie. Note: it doesn't set defaults */

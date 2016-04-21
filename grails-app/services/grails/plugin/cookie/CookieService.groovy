@@ -19,15 +19,10 @@ import grails.web.api.ServletAttributes
 
 import javax.servlet.http.Cookie
 
-/**
- * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>
- * @author <a href='mailto:stokito@gmail.com'>Sergey Ponomarev</a>
- * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
- */
 class CookieService implements ServletAttributes {
 
     @SuppressWarnings("GroovyUnusedDeclaration")
-    boolean transactional = false
+    static transactional = false
 
     /**
      * Gets the value of the named cookie.
@@ -67,7 +62,7 @@ class CookieService implements ServletAttributes {
      */
     Cookie setCookie(Map args) {
         assert args
-        response.setCookie args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly
+        response.setCookie args.name, args.value, args.maxAge, args.path, args.domain, args.secure?.toString()?.toBoolean(), args.httpOnly?.toString()?.toBoolean()
     }
 
     /** Sets the cookie. Note: it doesn't set defaults */
