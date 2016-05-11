@@ -15,6 +15,7 @@
  */
 package grails.plugin.cookie
 
+import grails.core.GrailsApplication
 import grails.web.api.ServletAttributes
 
 import javax.servlet.http.Cookie
@@ -23,6 +24,8 @@ class CookieService implements ServletAttributes {
 
     @SuppressWarnings("GroovyUnusedDeclaration")
     static transactional = false
+
+    GrailsApplication grailsApplication
 
     /**
      * Gets the value of the named cookie.
@@ -53,7 +56,7 @@ class CookieService implements ServletAttributes {
      * @param httpOnly "HTTP Only" cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate XSS attack.
      */
     Cookie setCookie(String name, String value, Integer maxAge = null, String path = null, String domain = null, Boolean secure = null, Boolean httpOnly = null) {
-        response.setCookie name, value, maxAge, path, domain, secure, httpOnly
+        setCookie([name: name, value: value, maxAge: maxAge, path: path, domain: domain, secure: secure, httpOnly:httpOnly] as Map)
     }
 
     /**
@@ -62,23 +65,23 @@ class CookieService implements ServletAttributes {
      */
     Cookie setCookie(Map args) {
         assert args
-        response.setCookie args.name, args.value, args.maxAge, args.path, args.domain, args.secure?.toString()?.toBoolean(), args.httpOnly?.toString()?.toBoolean()
+        getResponse().setCookie grailsApplication, getRequest(), getResponse(), args
     }
 
     /** Sets the cookie. Note: it doesn't set defaults */
     Cookie setCookie(Cookie cookie) {
-        response.setCookie cookie
+        getResponse().setCookie response, cookie
     }
 
     /** Deletes the named cookie */
     Cookie deleteCookie(String name, String path = null, String domain = null) {
         assert name
-        response.deleteCookie name, path, domain
+        getResponse().deleteCookie grailsApplication, request, response, name, path, domain
     }
 
     /** Deletes the named cookie */
     Cookie deleteCookie(Cookie cookie) {
         assert cookie
-        response.deleteCookie cookie
+        response.deleteCookie grailsApplication, request, response, cookie
     }
 }

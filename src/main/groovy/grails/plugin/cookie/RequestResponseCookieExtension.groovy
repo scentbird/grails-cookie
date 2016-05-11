@@ -15,6 +15,7 @@
  */
 package grails.plugin.cookie
 
+import grails.core.GrailsApplication
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -52,8 +53,8 @@ class RequestResponseCookieExtension {
      * @param secure Indicates to the browser whether the cookie should only be sent using a secure protocol, such as HTTPS or SSL.
      * @param httpOnly "HTTP Only" cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate XSS attack.
      */
-    static Cookie setCookie(HttpServletResponse response, String name, String value, Integer maxAge = null, String path = null, String domain = null, Boolean secure = null, Boolean httpOnly = null) {
-        setCookie response, helper.createCookie(name, value, maxAge, path, domain, secure, httpOnly)
+    static Cookie setCookie(HttpServletResponse response, GrailsApplication grailsApplication, HttpServletRequest request, String name, String value, Integer maxAge = null, String path = null, String domain = null, Boolean secure = null, Boolean httpOnly = null) {
+        setCookie response, helper.createCookie(grailsApplication, request, name, value, maxAge, path, domain, secure, httpOnly)
     }
 
     /**
@@ -61,11 +62,11 @@ class RequestResponseCookieExtension {
      * @param args Named params eg <code>[name: 'cookie_name', value: 'some_val', secure: true] </code>
      */
     @SuppressWarnings("GroovyUnusedDeclaration")
-    static Cookie setCookie(HttpServletResponse response, Map args) {
+    static Cookie setCookie(HttpServletResponse response, GrailsApplication grailsApplication, HttpServletRequest request, Map args) {
         assert args
         Boolean secure = args.secure?.toString()?.toBoolean()
         Boolean httpOnly = args.httpOnly?.toString()?.toBoolean()
-        setCookie response, helper.createCookie(args.name as String, args.value as String, args.maxAge as Integer, args.path as String, args.domain as String, secure != null ? secure : false, httpOnly != null ? httpOnly : true)
+        setCookie response, helper.createCookie(grailsApplication, request, args.name as String, args.value as String, args.maxAge as Integer, args.path as String, args.domain as String, secure != null ? secure : false, httpOnly != null ? httpOnly : true)
     }
 
     /** Sets the cookie. Note: it doesn't set defaults */
@@ -76,18 +77,27 @@ class RequestResponseCookieExtension {
         cookie
     }
 
-    /** Deletes the named cookie */
-    static Cookie deleteCookie(HttpServletResponse response, String name, String path = null, String domain = null) {
-        assert name
+
+    static Cookie deleteCookie(HttpServletResponse response, GrailsApplication grailsApplication, HttpServletRequest request, Map args) {
+        assert args.name
         log.info 'Removing cookie'
-        Cookie cookie = helper.createCookie(name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
+        Cookie cookie = helper.createCookie(grailsApplication, request, args.name, null, COOKIE_AGE_TO_DELETE, args.path, args.domain, null, null)
         helper.writeCookieToResponse response, cookie
         cookie
     }
 
     /** Deletes the named cookie */
-    static Cookie deleteCookie(HttpServletResponse response, Cookie cookie) {
+    static Cookie deleteCookie(HttpServletResponse response, GrailsApplication grailsApplication, HttpServletRequest request, String name, String path = null, String domain = null) {
+        assert name
+        log.info 'Removing cookie'
+        Cookie cookie = helper.createCookie(grailsApplication, request, name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
+        helper.writeCookieToResponse response, cookie
+        cookie
+    }
+
+    /** Deletes the named cookie */
+    static Cookie deleteCookie(HttpServletResponse response, GrailsApplication grailsApplication, HttpServletRequest request, Cookie cookie) {
         assert cookie
-        deleteCookie response, cookie.name, cookie.path, cookie.domain
+        deleteCookie response, grailsApplication, request, cookie.name, cookie.path, cookie.domain
     }
 }

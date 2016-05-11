@@ -12,9 +12,6 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
 abstract class CookieResponseSpec extends Specification {
-    protected HttpServletResponse response = new MockHttpServletResponse()
-    protected obj
-    private MockHttpServletRequest request = new MockHttpServletRequest()
 
     def setup() {
         request.contextPath = '/ctx'

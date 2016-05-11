@@ -3,6 +3,7 @@ package grails.plugin.cookie
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import grails.util.GrailsWebMockUtil
+import org.grails.web.util.WebUtils
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -11,26 +12,26 @@ import static grails.plugin.cookie.CookieHelper.COOKIE_DEFAULT_HTTP_ONLY
 @TestMixin(GrailsUnitTestMixin)
 class CookieHelperDefaultsSpec extends Specification {
 
-    def helper = new CookieHelper()
+    CookieHelper helper = new CookieHelper()
 
     def setupSpec() {
         GrailsWebMockUtil.bindMockWebRequest()
     }
 
     def cleanup() {
-        helper.grailsApplication.config.grails.plugins.cookie.cookieage.default = null
-        helper.grailsApplication.config.grails.plugins.cookie.httpOnly.default = null
-        helper.grailsApplication.config.grails.plugins.cookie.secure.default = null
+        config.grails.plugins.cookie.cookieage.default = null
+        config.grails.plugins.cookie.httpOnly.default = null
+        config.grails.plugins.cookie.secure.default = null
     }
 
     @Unroll
     void "getDefaultCookieAge(): #defaulAge #maxAge #expectedMaxAge #comment"() {
         given:
         if (defaulAge != null) {
-            helper.grailsApplication.config.grails.plugins.cookie.cookieage.default = defaulAge
+            config.grails.plugins.cookie.cookieage.default = defaulAge
         }
         expect:
-        helper.getDefaultCookieAge(maxAge) == expectedMaxAge
+        helper.getDefaultCookieAge(grailsApplication, maxAge) == expectedMaxAge
         where:
         defaulAge | maxAge | expectedMaxAge | comment
         null      | 42     | 42             | 'max directly'
@@ -41,12 +42,15 @@ class CookieHelperDefaultsSpec extends Specification {
     @Unroll
     void "getDefaultCookiePath(): #defaultStrategy #path #expectedPath #comment"() {
         given:
-        helper.request.contextPath = ctx
+        WebUtils.retrieveGrailsWebRequest().currentRequest.contextPath = ctx
+
         if (defaultStrategy != null) {
-            helper.grailsApplication.config.grails.plugins.cookie.path.defaultStrategy = defaultStrategy
+            config.grails.plugins.cookie.path.defaultStrategy = defaultStrategy
         }
+
         expect:
-        helper.getDefaultCookiePath(path) == expectedPath
+        helper.getDefaultCookiePath(grailsApplication, WebUtils.retrieveGrailsWebRequest().currentRequest, path) == expectedPath
+
         where:
         ctx    | defaultStrategy | path    | expectedPath | comment
         '/ctx' | null            | null    | '/ctx'       | 'context strategy will used if defaultStrategy not set'
@@ -59,12 +63,13 @@ class CookieHelperDefaultsSpec extends Specification {
     @Unroll
     void "getDefaultCookieSecure(): #requestSecure #defaultSecure #secure #expectedSecure #comment"() {
         given:
-        helper.request.secure = requestSecure
+        WebUtils.retrieveGrailsWebRequest().currentRequest.secure = requestSecure
         if (defaultSecure != null) {
-            helper.grailsApplication.config.grails.plugins.cookie.secure.default = defaultSecure
+            config.grails.plugins.cookie.secure.default = defaultSecure
         }
         expect:
-        helper.getDefaultCookieSecure(secure) == expectedSecure
+        helper.getDefaultCookieSecure(grailsApplication, WebUtils.retrieveGrailsWebRequest().currentRequest, secure) == expectedSecure
+
         where:
         requestSecure | defaultSecure | secure | expectedSecure | comment
         false         | null          | true   | true           | ''
@@ -87,10 +92,10 @@ class CookieHelperDefaultsSpec extends Specification {
     void "getDefaultCookieHttpOnly(): #defaultHttpOnly #httpOnly #expectedHttpOnly #comment"() {
         given:
         if (defaultHttpOnly != null) {
-            helper.grailsApplication.config.grails.plugins.cookie.httpOnly.default = defaultHttpOnly
+            config.grails.plugins.cookie.httpOnly.default = defaultHttpOnly
         }
         expect:
-        helper.getDefaultCookieHttpOnly(httpOnly) == expectedHttpOnly
+        helper.getDefaultCookieHttpOnly(grailsApplication, httpOnly) == expectedHttpOnly
         where:
         defaultHttpOnly | httpOnly | expectedHttpOnly         | comment
         null            | true     | true                     | ''
