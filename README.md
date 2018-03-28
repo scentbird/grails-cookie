@@ -11,7 +11,7 @@ It's [RFC 6265](http://tools.ietf.org/html/rfc6265) compliant.
 To install the cookie plug-in just add to `build.gradle`:
 ```groovy
     
-    compile 'org.grails.plugins:grails-cookie:2.0.1'
+    compile 'org.grails.plugins:grails-cookie:2.0.3'
     
 ```
 
