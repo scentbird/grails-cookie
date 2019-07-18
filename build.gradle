@@ -8,34 +8,29 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
-plugins {
-    id "io.spring.dependency-management" version "0.5.1.RELEASE"
-    id "com.jfrog.bintray" version "1.2"
-}
-
-version "2.0.5"
+version "4.0.0"
 group "org.grails.plugins"
 
-apply plugin: 'maven-publish'
+
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: "spring-boot"
-apply plugin: "org.grails.grails-plugin"
+apply plugin:"org.grails.grails-plugin"
+apply plugin:"org.grails.grails-plugin-publish"
 apply plugin: "org.grails.grails-gsp"
-// Used for publishing to central repository, remove if not needed
-apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
+apply plugin: "org.grails.grails-doc"
+
 
 ext {
     grailsVersion = project.grailsVersion
     gradleWrapperVersion = project.gradleWrapperVersion
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 repositories {
@@ -61,34 +56,17 @@ dependencies {
     provided "org.grails:grails-dependencies"
     provided 'javax.servlet:javax.servlet-api:3.1.0'
 
-    testCompile "org.grails:grails-plugin-testing"
+    testCompile 'org.grails:grails-gorm-testing-support:2.0.0'
+    testCompile 'org.grails:grails-web-testing-support:2.0.0'
 
-    console "org.grails:grails-console"
+
 }
 
-task wrapper(type: Wrapper) {
+wrapper {
     gradleVersion = gradleWrapperVersion
-}
-
-bintray {
-    user = System.getenv("BINTRAY_USER") ?: project.hasProperty("bintrayUser") ? project.bintrayUser : ''
-    key = System.getenv("BINTRAY_KEY") ?: project.hasProperty("bintrayKey") ? project.bintrayKey : ''
-    publications = ['maven']
-    pkg {
-        repo = 'grails-plugins'
-        userOrg = 'ctoestreich'
-        name = "cookie"
-        desc = "Grails Cookie Plugin"
-        websiteUrl = "http://grails-plugins.org/#plugin/cookie"
-        issueTrackerUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie/issues"
-        vcsUrl = "https://github.com/Grails-Plugin-Consortium/grails-cookie"
-        licenses = ['Apache-2.0']
-        publicDownloadNumbers = true
-    }
 }
 
 jar {
     exclude 'grails/plugin/cookie/test/**'
 }
 
-bintrayUpload.dependsOn sourcesJar, javadocJar
